@@ -6,7 +6,7 @@ on:
 
 env:
   API_PORT: 0
-  DOMAIN_URL: ${{ vars.DEPLOY_HOST }}
+  DOMAIN_URL: localhost
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: env
-        run: touch docker-deploy/.env
+        run: touch .env
 
       - name: build
         run: make build
