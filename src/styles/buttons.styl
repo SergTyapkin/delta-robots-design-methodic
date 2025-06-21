@@ -1,0 +1,115 @@
+@import 'constants.styl'
+@import 'fonts.styl'
+@import 'utils.styl'
+
+
+button()
+  cursor pointer
+  user-select none
+  box-sizing border-box
+  padding 10px 20px
+  color colorText1
+  text-shadow none
+  background colorBlockBg
+  border colorBorder solid 1px
+  border-radius radiusM
+  transition all 0.2s ease
+  font-medium()
+  svg-inside(1lh)
+  trans()
+  centered-flex-container()
+
+  &:hover
+    background mix(black, colorBlockBg, 20%)
+
+  &[disabled]:not([disabled="false"])
+    pointer-events none
+    color mix(white, colorText1, 70%)
+    background mix(white, colorBlockBg, 50%)
+    box-shadow none
+
+button-no-fill()
+  button()
+
+  padding-right 10px
+  padding-left 10px
+  color colorText2
+  background transparent
+  border-color transparent
+
+  &:hover
+    color colorText1
+    background mix(colorBlockBg, white, 20%)
+    border-color mix(colorBlockBg, white, 20%)
+
+button-emp1()
+  button()
+
+  color colorTextInvert1
+  background colorEmp1
+  border-color transparent
+
+  &:hover
+    color colorTextInvert1
+    background colorEmp1Hover
+    border-color transparent
+
+button-emp2()
+  button-emp1()
+
+  background colorEmp2
+
+  &:hover
+    background colorEmp2Hover
+
+
+button-emp1-no-fill()
+  button-emp1()
+
+  padding-right 10px
+  padding-left 10px
+  color colorEmp1
+  background transparent
+  border colorEmp1 1px solid
+
+  &:hover
+    color colorEmp1
+    background mix(colorEmp1, white, 20%)
+    border-color mix(colorBlockBg, white, 20%)
+
+button-emp2-no-fill()
+  button-emp2()
+
+  padding-right 10px
+  padding-left 10px
+  color colorEmp2
+  background transparent
+  border colorEmp2 1px solid
+
+  &:hover
+    color colorText1
+    background mix(colorEmp2, white, 20%)
+    border-color mix(colorBlockBg, white, 20%)
+
+
+button-attention()
+  button()
+
+  background mix(colorError, transparent)
+  border-color colorError
+
+  &:hover
+    color colorTextInvert1
+    border-color mix(colorError, white)
+
+button-success()
+  button()
+
+  color colorTextInvert3
+  background mix(colorSuccess, transparent)
+  border-color colorSuccess
+
+  &:hover
+    color colorTextInvert1
+    border-color mix(colorSuccess, white)
+
