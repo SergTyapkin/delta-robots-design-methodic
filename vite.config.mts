@@ -121,5 +121,6 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
       sourcemap: mode !== 'production',
       cssCodeSplit: false,
     },
+    base: `/${env.VITE_BASE_PATH}/`,
   };
 });
