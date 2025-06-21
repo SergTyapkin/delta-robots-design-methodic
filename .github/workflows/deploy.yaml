@@ -29,7 +29,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Build project
-        run: npm run build:example
+        run: npm run build
         env:
           VITE_BASE_PATH: ${{ github.event.repository.name }}
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./dist-example/
+          path: ./dist/
 
   deploy:
     name: Deploy
