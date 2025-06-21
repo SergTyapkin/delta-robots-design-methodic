@@ -3,13 +3,16 @@ export default {
   '/': false, // root is always false
 
   // User pages
-  '/profile': true,
-  '/login': true,
-  '/signup': true,
-  '/password/restore': false,
-  '/password/change': false,
-  '/email/confirm': false,
-  '/horse/:id': false,
+  '/specialization': true,
+  '/connections': true,
+  '/kinematics': true,
+  '/cross-sections': true,
+  '/dynamics': true,
+  '/trajectories': true,
+  '/materials': true,
+  '/drives': true,
+  '/deformations': true,
+  '/results': true,
 
   // Page 404
   '/:pathMatch(.*)*': false,

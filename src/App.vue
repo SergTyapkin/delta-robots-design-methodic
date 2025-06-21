@@ -7,15 +7,30 @@
 @import 'styles/animations.styl'
 @import 'styles/scrollbars.styl'
 
-.wrapper
+.outer-wrapper
+  display flex
   flex 1
-  width 100%
-  min-height 100%
 
-  // > *
-  //  position absolute
-  //  width 100%
-  //  min-height 100vh
+  .results-info
+    padding 20px
+    background colorBlockBg
+    display grid
+    grid-gap 15px
+    grid-template-columns auto auto
+    grid-template-rows repeat(auto-fill, 1fr)
+    border-right 1px solid colorBorder
+    color colorText4
+    font-small()
+
+  .wrapper
+    flex 1
+    width 100%
+    min-height 100%
+
+// > *
+//  position absolute
+//  width 100%
+//  min-height 100vh
 </style>
 
 <style lang="stylus">
@@ -53,10 +68,10 @@
 
 
 .opacity-enter-active
-  animation opacity 0.3s
+  animation opacity 0.15s
 
 .opacity-leave-active
-  animation opacity 0.3s reverse forwards
+  animation opacity 0.15s reverse forwards
 
 
 @keyframes opacity
@@ -68,27 +83,118 @@
 </style>
 
 <template>
-  <HeaderComponent class="header" />
+  <HeaderComponent class="header"/>
 
-  <div class="wrapper">
-    <router-view #default="{ Component }">
-      <transition name="scale-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+  <div class="outer-wrapper">
+    <div class="results-info" v-if="global?.$state">
+      <div>Модификация</div>
+      <div>
+        <div v-if="$state.modification">{{ $state.modification }}</div>
+      </div>
+      <div>Тип соединений</div>
+      <div>
+        <div v-if="$state.connectionsType">{{ $state.connectionsType }}</div>
+      </div>
+      <div>Мин. диаметр рабочей зоны</div>
+      <div>
+        <div v-if="$state.minWorkingAreaDiameter">{{ $state.minWorkingAreaDiameter }} мм</div>
+      </div>
+      <div>Мин. высота рабочей зоны</div>
+      <div>
+        <div v-if="$state.minWorkingAreaHeight">{{ $state.minWorkingAreaHeight }} мм</div>
+      </div>
+      <div>Макс. диаметр робота</div>
+      <div>
+        <div v-if="$state.maxRobotDiameter">{{ $state.maxRobotDiameter }} мм</div>
+      </div>
+      <div>Пищевое производство</div>
+      <div>
+        <div v-if="$state.isFoodWork !== undefined">{{ $state.isFoodWork }}</div>
+      </div>
+      <div>Влагозащита</div>
+      <div>
+        <div v-if="$state.isWaterProof !== undefined">{{ $state.isWaterProof }}</div>
+      </div>
+      <div>Сторона базы</div>
+      <div>
+        <div v-if="$state.sizes.F">{{ $state.sizes.F }} мм</div>
+      </div>
+      <div>Стороны нижней платформы</div>
+      <div>
+        <div v-if="$state.sizes.E">{{ $state.sizes.E }} мм</div>
+      </div>
+      <div>Длина рычага</div>
+      <div>
+        <div v-if="$state.sizes.Lf">{{ $state.sizes.Lf }} мм</div>
+      </div>
+      <div>Длина плеча(штанги)</div>
+      <div>
+        <div v-if="$state.sizes.Le">{{ $state.sizes.Le }} мм</div>
+      </div>
+      <div>Макс. грузоподъемность</div>
+      <div>
+        <div v-if="$state.maxLoadMass">{{ $state.maxLoadMass }} кг</div>
+      </div>
+      <div>Оптимальный угол установки</div>
+      <div>
+        <div v-if="$state.optimizedZAngle">{{ $state.optimizedZAngle }}°</div>
+      </div>
+      <div>Материал звеньев</div>
+      <div>
+        <div v-if="$state.materialType">{{ $state.materialType }}</div>
+      </div>
+      <div>Тип сечения звеньев</div>
+      <div>
+        <div v-if="$state.crossSectionsType">{{ $state.crossSectionsType }}</div>
+      </div>
+      <div>Площадь сечения звеньев</div>
+      <div>
+        <div v-if="$state.crossSectionsSquare">{{ $state.crossSectionsSquare }} мм^2</div>
+      </div>
+      <div>Макс. момент</div>
+      <div>
+        <div v-if="$state.maxJerk">{{ $state.maxJerk }} Н/м</div>
+      </div>
+      <div>Макс. угл. скорость</div>
+      <div>
+        <div v-if="$state.maxAngleSpeed">{{ $state.maxAngleSpeed }} °/сек</div>
+      </div>
+      <div>Макс. угл. ускорение</div>
+      <div>
+        <div v-if="$state.maxAngleAcceleration">{{ $state.maxAngleAcceleration }} °/сек^2</div>
+      </div>
+      <div>Компенсация деформаций X</div>
+      <div>
+        <div v-if="$state.elasticDeformationsExprs.x">{{ $state.elasticDeformationsExprs.x }} мм</div>
+      </div>
+      <div>Компенсация деформаций Y</div>
+      <div>
+        <div v-if="$state.elasticDeformationsExprs.y">{{ $state.elasticDeformationsExprs.y }} мм</div>
+      </div>
+      <div>Компенсация деформаций Z</div>
+      <div>
+        <div v-if="$state.elasticDeformationsExprs.z">{{ $state.elasticDeformationsExprs.z }} мм</div>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <router-view #default="{ Component }">
+        <transition name="scale-in" mode="out-in">
+          <component :is="Component"/>
+        </transition>
+      </router-view>
+    </div>
   </div>
 
-  <FooterComponent class="footer" />
-
-  <Popups ref="popups" />
-  <Modals ref="modals" />
+  <Popups ref="popups"/>
+  <Modals ref="modals"/>
 </template>
 
 <script lang="ts">
-import { getCurrentInstance } from 'vue';
-import { Modals, Popups } from '@sergtyapkin/modals-popups';
+import {getCurrentInstance} from 'vue';
+import {Modals, Popups} from '@sergtyapkin/modals-popups';
 import API from '~/utils/API';
-import { saveAllAssetsByServiceWorker } from '~/utils/utils';
+import {saveAllAssetsByServiceWorker} from '~/utils/utils';
 import HeaderComponent from '~/components/HeaderComponent.vue';
 import FooterComponent from '~/components/FooterComponent.vue';
 
@@ -113,7 +219,7 @@ function removeAllHoverStyles() {
 }
 
 export default {
-  components: { HeaderComponent, FooterComponent, Modals, Popups },
+  components: {HeaderComponent, FooterComponent, Modals, Popups},
 
   data(): {
     transitionName: string;
@@ -128,7 +234,7 @@ export default {
   mounted() {
     this.global = getCurrentInstance()!.appContext.config.globalProperties;
 
-    this.global.$user = this.$store.state.user;
+    this.global.$state = this.$store.state.state;
     this.global.$modals = this.$refs.modals;
     this.global.$popups = this.$refs.popups;
     this.global.$app = this;
@@ -144,7 +250,7 @@ export default {
     ) => {
       context.loading = true;
       try {
-        const { status, ok, data } = await apiRequest(...args);
+        const {status, ok, data} = await apiRequest(...args);
         context.loading = false;
         if (!ok) {
           this.$popups.error(`Ошибка ${status}`, errorText);
@@ -164,7 +270,7 @@ export default {
     this.checkMobileScreen();
     window.addEventListener('resize', this.checkMobileScreen);
 
-    saveAllAssetsByServiceWorker(({ current, total, progress }) => {
+    saveAllAssetsByServiceWorker(({current, total, progress}) => {
       console.log(`Saved resource by SW: ${current}. Progress: ${progress}/${total}`);
     });
   },
@@ -182,6 +288,10 @@ export default {
       }
       this.global!.$isMobile = false;
     },
+
+    update() {
+      this.$forceUpdate();
+    }
   },
 
   watch: {

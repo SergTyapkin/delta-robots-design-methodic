@@ -11,11 +11,11 @@ checked-background = colorEmp1
 checked-border = 0px solid transparent
 
 disabled-background = mix(colorEmp1, colorBg)
-disabled-border = 0px solid transparent
+disabled-border = 1px solid mix(colorBorder, colorBg)
 
 
 no-checked-background = colorBg
-no-checked-border = 0px solid transparent
+no-checked-border = 1px solid colorBorder
 
 .checkbox-container
   input
@@ -38,6 +38,7 @@ no-checked-border = 0px solid transparent
       trans()
     &:checked
       background checked-background
+      border checked-border
       &::after
         width size
         height size

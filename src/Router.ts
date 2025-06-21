@@ -1,16 +1,18 @@
-import { createRouter, createWebHistory, Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
+import { createRouter, createWebHistory, Router } from 'vue-router';
 import { type Store } from '~/types/store';
 
 // Components:
-import Page from '~/views/Page.vue';
-import Page404 from '~/views/Page404.vue';
-import PageRegistration from '~/views/User/PageRegistration.vue';
-import PageLogin from '~/views/User/PageLogin.vue';
-import PageProfile from '~/views/User/PageProfile.vue';
-import PageRestorePassword from '~/views/User/PageRestorePassword.vue';
-import PageConfirmEmail from '~/views/User/PageConfirmEmail.vue';
 import routes from '~/routes';
 import { RouteRecordRaw } from 'vue-router';
+import PageModification from "~/views/PageModification.vue";
+import PageSpecialization from "~/views/PageSpecialization.vue";
+import Page404 from "~/views/Page404.vue";
+import PageKinematics from "~/views/PageKinematics.vue";
+import PageConnections from "~/views/PageConnections.vue";
+import PageCrossSections from "~/views/PageCrossSections.vue";
+import PageMaterials from "~/views/PageMaterials.vue";
+import PageDrives from "~/views/PageDrives.vue";
+import PageDeformations from "~/views/PageDeformations.vue";
 
 type MyRoute = RouteRecordRaw & {
   path: keyof typeof routes,
@@ -20,18 +22,21 @@ type MyRoute = RouteRecordRaw & {
   }
 }
 
-export default function createVueRouter(Store: Store): Router {
+export default function createVueRouter(_: Store): Router {
   const routesList: MyRoute[] = [
-    { path: '/', name: 'default', component: Page },
+    { path: '/', name: 'default', component: PageModification },
+    { path: '/specialization', name: 'specialization', component: PageSpecialization },
+    { path: '/connections', name: 'connections', component: PageConnections },
+    { path: '/kinematics', name: 'kinematics', component: PageKinematics },
+    { path: '/dynamics', name: 'dynamics', component: PageModification },
+    { path: '/trajectories', name: 'trajectories', component: PageModification },
+    { path: '/cross-sections', name: 'crossSections', component: PageCrossSections },
+    { path: '/materials', name: 'materials', component: PageMaterials },
+    { path: '/drives', name: 'drives', component: PageDrives },
+    { path: '/deformations', name: 'deformations', component: PageDeformations },
+    // { path: '/results', name: 'results', component: PageModification },
 
-    { path: '/profile', name: 'profile', component: PageProfile, meta: {loginRequired: true} },
-    { path: '/login', name: 'login', component: PageLogin, meta: {noLoginRequired: true} },
-    { path: '/signup', name: 'signup', component: PageRegistration, meta: {loginRequired: true} },
-    { path: '/password/restore', name: 'restorePassword', component: PageRestorePassword, meta: {loginRequired: true} },
-    { path: '/password/change', name: 'changePassword', component: PageRestorePassword, meta: {loginRequired: true} },
-    { path: '/email/confirm', name: 'confirmEmail', component: PageConfirmEmail, meta: {loginRequired: true} },
-
-    { path: '/:pathMatch(.*)*', name: 'page404', component: Page404 },
+    { path: '/:pathMatch(.*)*', component: Page404},
   ];
 
   const Router = createRouter({
@@ -39,65 +44,15 @@ export default function createVueRouter(Store: Store): Router {
     routes: routesList,
   });
 
-  let router_got_user = false;
-  Router.beforeEach(async (to: RouteLocationNormalized, _, next: NavigationGuardNext) => {
-    if (!router_got_user) {
-      await Store.dispatch('GET_USER');
-      router_got_user = true;
-    }
-
-    const notLoginedRedirect = {
-      name: 'login',
-    };
-    const loginedRedirect = {
-      name: 'profile',
-    };
-
-    if (to.path === '/' || to.path === '') {
-      if (Store.state.user.isSignedIn) {
-        next(loginedRedirect);
-        return;
-      }
-      next(notLoginedRedirect);
-      return;
-    }
-
-    // Login required redirects
-    if (to.matched.some(record => record.meta.loginRequired === true || record.meta.adminRequired === true)) {
-      if (Store.state.user.isSignedIn) {
-        next();
-        return;
-      }
-      next(notLoginedRedirect);
-      return;
-    } else if (to.matched.some(record => record.meta.noLoginRequired === true)) {
-      if (!Store.state.user.isSignedIn) {
-        next();
-        return;
-      }
-      next(loginedRedirect);
-      return;
-    }
-    if (to.matched.some(record => record.meta.adminRequired === true)) {
-      if (Store.state.user.isAdmin) {
-        next();
-        return;
-      }
-      next(loginedRedirect);
-      return;
-    }
-    next();
-  });
-
-  Router.beforeResolve(async () => {
-    if (window?.onbeforeunload) {
-      if (confirm('Изменения не сохранены. Вы уверены, что хотите покинуть страницу?')) {
-        window.onbeforeunload = null;
-      } else {
-        return false;
-      }
-    }
-  });
+  // Router.beforeResolve(async () => {
+  //   if (window?.onbeforeunload) {
+  //     if (confirm('Изменения не сохранены. Вы уверены, что хотите покинуть страницу?')) {
+  //       window.onbeforeunload = null;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
+  // });
 
   return Router;
 }

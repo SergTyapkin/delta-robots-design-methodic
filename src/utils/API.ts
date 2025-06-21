@@ -1,7 +1,6 @@
 import REST_API from '@sergtyapkin/rest-api';
 import { validateModel, type Model } from '@sergtyapkin/models-validator';
 import {UserModel, UserModelMockData} from '~/utils/APIModels';
-import { User } from '~/utils/models';
 
 type RequestFunc = (url: string, data?: object) => Promise<{ data: object; status: number; ok: boolean }>;
 type MyResponse<T> = Promise<{ data: T; status: number; ok: boolean }> | { data: T; status: number; ok: boolean };
@@ -54,17 +53,17 @@ export default class API extends REST_API {
   }
 
   // Api configuration
-  // User
+  // unknown
   getUser = () =>
-    this.#GET(`/user`, {}, UserModel, Response200(UserModelMockData)) as MyResponse<User>;
+    this.#GET(`/user`, {}, UserModel, Response200(UserModelMockData)) as MyResponse<unknown>;
   updateProfile = (id: string, profileData: { username?: string; email?: string; password?: string }) =>
-    this.#PUT(`/user/${id}`, profileData, UserModel) as MyResponse<User>;
+    this.#PUT(`/user/${id}`, profileData, UserModel) as MyResponse<unknown>;
   register = (username: string, email: string, password: string) =>
-    this.#POST(`/user`, { username, email, password }, UserModel) as MyResponse<User>;
+    this.#POST(`/user`, { username, email, password }, UserModel) as MyResponse<unknown>;
   deleteProfile = () =>
     this.#DELETE(`/user`) as MyResponse<unknown>;
   login = (usernameOrEmail: string, password: string) =>
-    this.#POST(`/auth`, { username_or_email: usernameOrEmail, password }, UserModel) as MyResponse<User>;
+    this.#POST(`/auth`, { username_or_email: usernameOrEmail, password }, UserModel) as MyResponse<unknown>;
   logout = () =>
     this.#DELETE(`/auth`) as MyResponse<unknown>;
   sendPasswordRestorationLetter = () =>

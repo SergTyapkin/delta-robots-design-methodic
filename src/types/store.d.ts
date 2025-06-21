@@ -1,7 +1,7 @@
 import { type Store as VuexStore } from 'vuex';
 import App from '~/App.vue';
-import { type Commit, type Dispatch } from 'vuex';
-import { User } from '~/utils/models';
+import type {Commit, Dispatch } from 'vuex';
+import type {Modification, ConnectionType, CrossSectionType} from "~/constants";
 
 interface Store extends VuexStore<any> {
   $app: App;
@@ -12,13 +12,42 @@ interface Store extends VuexStore<any> {
 
 // declare my own store state
 interface State {
-  user: User;
-  commit: (event: string, data?: any) => void;
+  state: RobotState;
+}
+
+// declare my own store state
+interface RobotState {
+  modification?: Modification,
+  connectionsType?: ConnectionType,
+  minWorkingAreaDiameter?: number,
+  minWorkingAreaHeight?: number,
+  maxRobotDiameter?: number,
+  isFoodWork?: boolean,
+  isWaterProof?: boolean,
+  sizes: {
+    F?: number,
+    E?: number,
+    Lf?: number,
+    Le?: number,
+  },
+  maxLoadMass?: number,
+  optimizedZAngle?: number,
+  materialType?: string,
+  crossSectionsType?: CrossSectionType,
+  crossSectionsSquare?: number,
+  maxJerk?: number,
+  maxAngleSpeed?: number,
+  maxAngleAcceleration?: number,
+  elasticDeformationsExprs: {
+    x?: (t1: number, t2: number, t3: number, mass: number) => number,
+    y?: (t1: number, t2: number, t3: number, mass: number) => number,
+    z?: (t1: number, t2: number, t3: number, mass: number) => number,
+  },
 }
 
 declare module 'vue' {
   interface ComponentCustomProperties {
     $store: Store;
-    $user: User;
+    $state: RobotState
   }
 }

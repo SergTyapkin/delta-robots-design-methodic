@@ -3,6 +3,57 @@
 @import 'buttons.styl'
 @import 'utils.styl'
 
+cards-container()
+  display flex
+  padding 20px
+  flex-wrap wrap
+  gap 15px
+  justify-content space-evenly
+  .card
+    width 100%
+    max-width 250px
+    max-height 500px
+    overflow hidden
+    border 1px solid transparent
+    border-radius 10px
+    display flex
+    flex-direction column
+    background colorBlockBg
+    cursor pointer
+    trans()
+    header
+      padding 10px
+      font-medium()
+      trans()
+    img
+      border-radius 10px
+      object-fit cover
+      object-position center bottom
+      transform-origin 50% 0
+      img-size(100%)
+      transition all 0.2s ease-out
+    &:hover
+      border-color mix(colorBorder, transparent)
+      header
+        color colorEmp2
+      img
+        transform scale(1.03)
+        filter brightness(1.2)
+
+    &.disabled
+      filter saturate(0) brightness(0.7)
+      cursor not-allowed
+      pointer-events none
+
+form()
+  padding 20px
+  .info
+    color colorText4
+    font-small-extra()
+  button
+    margin-bottom 15px
+    button()
+
 page-root()
   // box-sizing content-box
   width 100%

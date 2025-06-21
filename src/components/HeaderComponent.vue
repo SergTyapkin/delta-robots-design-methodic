@@ -10,20 +10,19 @@
 
 .root-header
   .row-inner
+    scrollbars-hidden()
+    font-large()
     overflow-x auto
     display flex
     gap 7%
     align-items center
     justify-content space-between
-    padding-top 10px
-    padding-bottom 10px
     background colorBlockBgEmp1Gradient
-    scrollbars-hidden()
-    page-root()
-    font-small()
+    padding 15px 30px
     .left-group
       width 120px
       hover-effect()
+      img-size(40px)
 
     .center-group
       display flex
@@ -66,18 +65,12 @@
       >
         <img
           class="logo"
-          src="/static/icons/telegram-logo.svg"
+          src="/static/icons/robot.svg"
           alt="logo"
         >
       </router-link>
       <div class="center-group">
-        <router-link :to="{ name: 'default' }">Раздел</router-link>
-        <router-link :to="{ name: 'default' }">Раздел</router-link>
-        <router-link :to="{ name: 'default' }">Раздел</router-link>
-      </div>
-      <div class="right-group">
-        <InputSearch v-model="searchText" class="search" placeholder="Поиск по сайту" />
-        <router-link :to="{ name: 'profile' }" class="profile"><img src="/static/icons/profile.svg" alt="profile"></router-link>
+        Delta robots calculator
       </div>
     </div>
   </header>

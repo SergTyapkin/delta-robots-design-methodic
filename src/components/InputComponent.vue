@@ -55,7 +55,7 @@
   <section class="input-root" :class="{error}">
     <div class="title" v-if="title">{{ title }}</div>
     <input v-model="value" @input="onInput" :placeholder="placeholder" :type="type">
-    <div class="keys-count">{{ modelValue.length }}<span v-if="maxSymbols">/{{ maxSymbols }}</span></div>
+    <div class="keys-count" v-if="modelValue?.length">{{ modelValue.length }}<span v-if="maxSymbols">/{{ maxSymbols }}</span></div>
   </section>
 </template>
 

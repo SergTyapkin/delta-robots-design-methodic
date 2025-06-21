@@ -26,7 +26,7 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
       pluginPrettier(),
       pluginStylelint(),
       pluginViteStaticCopy({
-        targets: [{ src: 'static/favicon.ico', dest: 'static' }],
+        targets: [{ src: 'static/favicon.svg', dest: 'static' }],
       }),
       pluginSitemap({
         hostname: `${/true/i.test(env.VITE_HTTPS) ? 'https' : 'http'}://${env.VITE_DEPLOY_HOSTNAME}`,
@@ -45,14 +45,14 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
 
 
         includeManifestIcons: true,
-        includeAssets: ['/static/favicon.ico'],
+        includeAssets: ['/static/favicon.svg'],
         manifest: {
           short_name: 'Frontend Template',
           name: 'Frontend template with all best-practice instruments',
           description: 'Some description of our service',
           icons: [
             {
-              src: '/static/favicon.ico',
+              src: '/static/favicon.svg',
               sizes: '32x32',
               type: 'image/png',
               purpose: 'maskable',
@@ -121,6 +121,6 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
       sourcemap: mode !== 'production',
       cssCodeSplit: false,
     },
-    base: `/${env.VITE_BASE_PATH}/`,
+    base: env.VITE_BASE_PATH ? `/${env.VITE_BASE_PATH}/` : '/',
   };
 });
