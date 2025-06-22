@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, Router } from 'vue-router';
-import { type Store } from '~/types/store';
 
 // Components:
 import { RouteRecordRaw } from 'vue-router';

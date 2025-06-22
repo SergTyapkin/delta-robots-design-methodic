@@ -11,6 +11,6 @@ import swAPI from '~/serviceWorker/swAPI';
 
 await swAPI.register();
 
-const Router = createVueRouter(Store);
+const Router = createVueRouter();
 const app = createApp(App).use(Router).use(WS).use(Store).mount('#app');
 Store.$app = app;
