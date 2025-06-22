@@ -19,6 +19,10 @@
     justify-content space-between
     background colorBlockBgEmp1Gradient
     padding 15px 30px
+    @media ({mobile})
+      padding-left 5px
+      padding-right 5px
+      gap 5px
     .left-group
       width 120px
       hover-effect()
@@ -34,7 +38,6 @@
 
       > *
         padding 5px 5px
-        white-space nowrap
         background linear-gradient(colorText1, colorText1) 50% 100% / 0 1px no-repeat
         hover-effect()
         trans()
@@ -47,13 +50,11 @@
       flex 1
       gap 20px
       align-items center
-      justify-content space-between
-      .search
-        flex 1
-      .profile
-        hover-effect()
-
-
+      justify-content flex-end
+      button
+        button()
+        font-small()
+        padding 10px 7px
 </style>
 
 <template>
@@ -70,7 +71,15 @@
         >
       </router-link>
       <div class="center-group">
-        Delta robots calculator
+        <router-link :to="{name: 'default'}">
+          Delta robots calculator
+        </router-link>
+      </div>
+      <div class="right-group">
+        <button @click="reset" v-if="$store.state.isInCalculating">
+          <img src="/static/icons/cross.svg" alt="">
+          Начать заново
+        </button>
       </div>
     </div>
   </header>
@@ -90,6 +99,14 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    async reset() {
+      if (! await this.$modals.confirm('Вы уверены?', 'Все текущие результаты будут потеряны')) {
+        return;
+      }
+      await this.$store.dispatch('CLEAR_STATE');
+      this.$router.push({name: 'default'});
+    }
+  },
 };
 </script>

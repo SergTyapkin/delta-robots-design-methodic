@@ -1,18 +1,18 @@
 import { type Store as VuexStore } from 'vuex';
 import App from '~/App.vue';
 import type {Commit, Dispatch } from 'vuex';
-import type {Modification, ConnectionType, CrossSectionType} from "~/constants";
+import type {Modification, ConnectionType, CrossSectionType, StepName} from "~/constants";
 
 interface Store extends VuexStore<any> {
-  $app: App;
-  readonly state: any;
-  dispatch: Dispatch;
-  commit: Commit;
+  $app: App,
+  readonly state: any,
+  dispatch: Dispatch,
+  commit: Commit,
 }
 
 // declare my own store state
 interface State {
-  state: RobotState;
+  state: RobotState,
 }
 
 // declare my own store state
@@ -43,6 +43,8 @@ interface RobotState {
     y?: (t1: number, t2: number, t3: number, mass: number) => number,
     z?: (t1: number, t2: number, t3: number, mass: number) => number,
   },
+
+  step?: StepName,
 }
 
 declare module 'vue' {

@@ -41,6 +41,7 @@
         <div>Пищевые смазки, сертифицированные по стандартам NSF H1</div>
       </div>
 
+      <router-link :to="{name: 'materials'}" class="button">Назад</router-link>
       <button @click="submit">Далее</button>
     </div>
   </div>
@@ -48,6 +49,7 @@
 
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
+import {StepsNames} from "~/constants";
 
 export default {
   components: {InputComponent},
@@ -61,6 +63,7 @@ export default {
 
   methods: {
     submit() {
+      this.$store.dispatch('SET_STATE', {step: StepsNames.deformations});
       this.$router.push({name: 'deformations'});
     }
   },

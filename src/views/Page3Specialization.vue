@@ -33,6 +33,7 @@
       Влагозащита
       <Checkbox v-model="$state.isWaterProof"/>
 
+      <router-link :to="{name: 'connections'}" class="button">Назад</router-link>
       <button @click="submit">Далее</button>
     </div>
   </div>
@@ -41,6 +42,7 @@
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
 import Checkbox from "~/components/Checkbox.vue";
+import {StepsNames} from "~/constants";
 
 export default {
   components: {Checkbox, InputComponent},
@@ -57,7 +59,12 @@ export default {
 
   methods: {
     submit() {
-      this.$store.dispatch('SET_STATE', {});
+      if (!this.$state.minWorkingAreaDiameter && !this.$state.minWorkingAreaHeight && !this.$state.maxRobotDiameter) {
+        this.$popups.error('Не заполнено ни одно поле', 'Заполните хотя бы одно');
+        return;
+      }
+
+      this.$store.dispatch('SET_STATE', {step: StepsNames.kinematics});
       this.$router.push({name: 'kinematics'});
     }
   },

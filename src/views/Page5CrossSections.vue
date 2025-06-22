@@ -14,6 +14,10 @@
 
   .cards-container
     cards-container()
+
+  .button
+    button()
+    width fit-content
 </style>
 
 <template>
@@ -41,11 +45,13 @@
         <img src="/static/images/rectangle.png" alt="">
       </article>
     </div>
+
+    <router-link :to="{name: 'kinematics'}" class="button">Назад</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import {CrossSectionTypes, CrossSectionType} from "~/constants";
+import {CrossSectionTypes, CrossSectionType, StepsNames} from "~/constants";
 
 export default {
   components: {},
@@ -60,7 +66,7 @@ export default {
 
   methods: {
     selectModification(conn: CrossSectionType) {
-      this.$store.dispatch('SET_STATE', {crossSectionsType: conn});
+      this.$store.dispatch('SET_STATE', {crossSectionsType: conn, step: StepsNames.materials});
       this.$router.push({name: 'materials'});
     }
   },

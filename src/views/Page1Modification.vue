@@ -14,6 +14,10 @@
 
   .cards-container
     cards-container()
+
+  .button
+    button()
+    width fit-content
 </style>
 
 <template>
@@ -37,11 +41,13 @@
       </article>
 
     </div>
+
+    <router-link :to="{name: 'default'}" class="button">Назад</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import {Modification, Modifications} from "~/constants";
+import {Modification, Modifications, StepsNames} from "~/constants";
 
 export default {
   components: {},
@@ -52,13 +58,11 @@ export default {
     };
   },
 
-  mounted() {
-    window.onbeforeunload = () => true;
-  },
+  mounted() {},
 
   methods: {
     selectModification(mod: Modification) {
-      this.$store.dispatch('SET_STATE', {modification: mod});
+      this.$store.dispatch('SET_STATE',{modification: mod, step: StepsNames.connections});
       this.$router.push({name: 'connections'});
     }
   },

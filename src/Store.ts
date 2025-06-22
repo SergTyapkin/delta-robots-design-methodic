@@ -31,6 +31,8 @@ export default new Vuex.Store({
         z: undefined,
       },
     } as RobotState,
+
+    isInCalculating: false,
   },
   mutations: {
     SET_STATE(state: State, robotState: RobotState) {
@@ -56,13 +58,66 @@ export default new Vuex.Store({
       state.state.elasticDeformationsExprs.x =  robotState.elasticDeformationsExprs?.x ?? state.state.elasticDeformationsExprs.x;
       state.state.elasticDeformationsExprs.y =  robotState.elasticDeformationsExprs?.y ?? state.state.elasticDeformationsExprs.y;
       state.state.elasticDeformationsExprs.z =  robotState.elasticDeformationsExprs?.z ?? state.state.elasticDeformationsExprs.z;
+      state.state.step = robotState.step ?? state.state.step;
+
       console.log("State updated:", state.state);
+
+      localStorage.setItem('state', JSON.stringify(state.state));
     },
+    CLEAR_STATE(state: State) {
+      state.state.modification = undefined;
+      state.state.connectionsType = undefined;
+      state.state.minWorkingAreaDiameter = undefined;
+      state.state.minWorkingAreaHeight = undefined;
+      state.state.maxRobotDiameter = undefined;
+      state.state.isWaterProof = undefined;
+      state.state.isFoodWork = undefined;
+      state.state.materialType = undefined;
+      state.state.sizes.F = undefined;
+      state.state.sizes.E = undefined;
+      state.state.sizes.Lf = undefined;
+      state.state.sizes.Le = undefined;
+      state.state.maxLoadMass = undefined;
+      state.state.optimizedZAngle = undefined;
+      state.state.crossSectionsType = undefined;
+      state.state.crossSectionsSquare = undefined;
+      state.state.maxJerk = undefined;
+      state.state.maxAngleSpeed = undefined;
+      state.state.maxAngleAcceleration = undefined;
+      state.state.elasticDeformationsExprs.x = undefined;
+      state.state.elasticDeformationsExprs.y = undefined;
+      state.state.elasticDeformationsExprs.z = undefined;
+      state.state.step = undefined;
+
+      localStorage.setItem('state', JSON.stringify(state.state));
+    }
   },
   actions: {
+    async LOAD_STATE(this: Store, state: Store) {
+      const loaded = localStorage.getItem('state');
+      if (!loaded) {
+        state.commit('CLEAR_STATE');
+        this.$app?.update?.();
+        return;
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(loaded);
+        state.commit('SET_STATE', parsed);
+      } catch (err) {
+        console.error("Cannot load state from localStorage", err);
+        state.commit('CLEAR_STATE');
+      }
+      this.$app?.update?.();
+    },
     async SET_STATE(this: Store, state: Store, data: RobotState) {
       state.commit('SET_STATE', data);
-      this.$app.update();
+      this.$app?.update?.();
+    },
+    async CLEAR_STATE(this: Store, state: Store) {
+      state.commit('CLEAR_STATE');
+      this.$app?.update?.();
     },
   },
 });

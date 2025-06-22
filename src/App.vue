@@ -12,6 +12,7 @@
   flex 1
 
   .results-info
+    position relative
     padding 20px
     background colorBlockBg
     display grid
@@ -20,12 +21,68 @@
     grid-template-rows repeat(auto-fill, 1fr)
     border-right 1px solid colorBorder
     color colorText4
+    max-width 100%
     font-small()
+    trans()
+    .button-close
+      position absolute
+      left 100%
+      top 100px
+      padding 5px
+      padding-left 0
+      background colorBlockBg
+      border 1px solid colorBorder
+      border-left none
+      border-radius 0 7px 7px 0
+      cursor pointer
+      img
+        img-size(30px)
+        transform rotate(90deg)
+        trans()
+    &.closed
+      pointer-events none
+      background transparent
+      color transparent
+      border-color transparent
+      max-width 0
+      padding-left 0
+      padding-right 0
+      .button-close
+        pointer-events all
+        img
+          transform rotate(-90deg)
+
 
   .wrapper
+    padding-left 20px
     flex 1
     width 100%
     min-height 100%
+    barHeight = 6px
+    circleHeight = 12px
+    .progressbar
+      width 100%
+      height barHeight
+      border-radius 9999px
+      border 1px solid mix(colorBorder, transparent)
+      margin-top 10px
+      position relative
+      background linear-gradient(90deg, colorSuccess 50%, colorBlockBg 55%)
+      background-size 200% 100%
+      background-position-x 'calc(100% - (100% - %s) * var(--progress))' % (circleHeight)
+      .step
+        position absolute
+        top (- (circleHeight - barHeight) / 2)
+        left 'calc((100% - %s) / var(--count) * var(--number))' % (circleHeight)
+        width circleHeight
+        height circleHeight
+        border-radius 9999px
+        border inherit
+        background colorBlockBg
+        trans()
+        &.filled
+          border-color transparent
+          background colorSuccess
 
 // > *
 //  position absolute
@@ -86,7 +143,9 @@
   <HeaderComponent class="header"/>
 
   <div class="outer-wrapper">
-    <div class="results-info" v-if="global?.$state">
+    <div class="results-info" v-if="global?.$state" :class="{closed: isInfoClosed}">
+      <button class="button-close" @click="() => isInfoClosed = !isInfoClosed"><img src="/static/icons/chevron-down.svg" alt=""></button>
+
       <div>Модификация</div>
       <div>
         <div v-if="$state.modification">{{ $state.modification }}</div>
@@ -178,6 +237,10 @@
     </div>
 
     <div class="wrapper">
+      <section v-if="$state?.step" class="progressbar" :style="{'--progress': StepsValues[$state.step] / maxStepsCount, '--count': maxStepsCount}">
+        <div class="step" v-for="i in maxStepsCount + 1" :class="{filled: StepsValues[$state.step] >= i-1}" :style="{'--number': i - 1}"/>
+      </section>
+
       <router-view #default="{ Component }">
         <transition name="scale-in" mode="out-in">
           <component :is="Component"/>
@@ -197,6 +260,7 @@ import API from '~/utils/API';
 import {saveAllAssetsByServiceWorker} from '~/utils/utils';
 import HeaderComponent from '~/components/HeaderComponent.vue';
 import FooterComponent from '~/components/FooterComponent.vue';
+import {StepsNames} from "~/constants";
 
 function removeAllHoverStyles() {
   try {
@@ -221,17 +285,28 @@ function removeAllHoverStyles() {
 export default {
   components: {HeaderComponent, FooterComponent, Modals, Popups},
 
-  data(): {
-    transitionName: string;
-    global?: Record<string, any>;
-  } {
+  data() {
     return {
       transitionName: '',
-      global: undefined,
+      global: undefined as undefined | Record<string, any>,
+      isInfoClosed: false,
+
+      StepsValues: {
+        modification: 0,
+        connections: 1,
+        specialization: 2,
+        kinematics: 3,
+        crossSections: 4,
+        materials: 5,
+        drives: 6,
+        deformations: 7,
+        results: 8,
+      },
+      maxStepsCount: 8,
     };
   },
 
-  mounted() {
+  async mounted() {
     this.global = getCurrentInstance()!.appContext.config.globalProperties;
 
     this.global.$state = this.$store.state.state;
@@ -273,6 +348,35 @@ export default {
     saveAllAssetsByServiceWorker(({current, total, progress}) => {
       console.log(`Saved resource by SW: ${current}. Progress: ${progress}/${total}`);
     });
+
+    // ------ LOAD STATE
+    await this.$store.dispatch('LOAD_STATE');
+    switch (this.$state.step) {
+      case StepsNames.default:
+        this.$router.push({name: 'default'});
+        break;
+      case StepsNames.modification:
+        this.$router.push({name: 'modification'});
+        break;
+      case StepsNames.connections:
+        this.$router.push({name: 'connections'});
+        break;
+      case StepsNames.kinematics:
+        this.$router.push({name: 'kinematics'});
+        break;
+      case StepsNames.materials:
+        this.$router.push({name: 'materials'});
+        break;
+      case StepsNames.specialization:
+        this.$router.push({name: 'specialization'});
+        break;
+      case StepsNames.crossSections:
+        this.$router.push({name: 'crossSections'});
+        break;
+      case StepsNames.drives:
+        this.$router.push({name: 'drives'});
+        break;
+    }
   },
 
   unmounted() {

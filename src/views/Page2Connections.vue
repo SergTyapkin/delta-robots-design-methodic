@@ -14,6 +14,10 @@
 
   .cards-container
     cards-container()
+
+  .button
+    button()
+    width fit-content
 </style>
 
 <template>
@@ -27,15 +31,17 @@
       </article>
 
       <article class="card" @click="selectModification(ConnectionTypes.balls)">
-        <header>Шаровые соединения</header>
+        <header>Шарниры</header>
         <img src="/static/images/balls.png" alt="">
       </article>
     </div>
+
+    <router-link :to="{name: 'modification'}" class="button">Назад</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import {ConnectionTypes, ConnectionType} from "~/constants";
+import {ConnectionTypes, ConnectionType, StepsNames} from "~/constants";
 
 export default {
   components: {},
@@ -50,7 +56,7 @@ export default {
 
   methods: {
     selectModification(conn: ConnectionType) {
-      this.$store.dispatch('SET_STATE', {connectionsType: conn});
+      this.$store.dispatch('SET_STATE', {connectionsType: conn, step: StepsNames.specialization});
       this.$router.push({name: 'specialization'});
     }
   },

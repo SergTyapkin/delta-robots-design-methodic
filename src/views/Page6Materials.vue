@@ -15,6 +15,10 @@
 
   .cards-container
     cards-container()
+
+  .button
+    button()
+    width fit-content
 </style>
 
 <template>
@@ -34,11 +38,14 @@
       </article>
 
     </div>
+
+    <router-link :to="{name: 'crossSections'}" class="button">Назад</router-link>
   </div>
 </template>
 
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
+import {StepsNames} from "~/constants";
 
 export default {
   components: {InputComponent},
@@ -69,7 +76,7 @@ export default {
 
   methods: {
     submit(material: string, square: number, moment: number) {
-      this.$store.dispatch('SET_STATE', {materialType: material, crossSectionsSquare: square, maxJerk: moment});
+      this.$store.dispatch('SET_STATE', {materialType: material, crossSectionsSquare: square, maxJerk: moment, step: StepsNames.drives});
       this.$router.push({name: 'drives'});
     }
   },

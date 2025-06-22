@@ -45,6 +45,7 @@
       Требуемая максимальная грузоподьёмность <span class="info">Обязательно</span>
       <InputComponent v-model="$state.maxLoadMass" placeholder="кг"/>
 
+      <router-link :to="{name: 'specialization'}" class="button">Назад</router-link>
       <button @click="submit">Далее</button>
     </div>
   </div>
@@ -52,6 +53,7 @@
 
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
+import {StepsNames} from "~/constants";
 
 export default {
   components: {InputComponent},
@@ -75,7 +77,12 @@ export default {
 
   methods: {
     submit() {
-      this.$store.dispatch('SET_STATE', {});
+      if (!this.$state.maxLoadMass) {
+        this.$popups.error('Не заполнено поле', 'Заполните массу');
+        return;
+      }
+
+      this.$store.dispatch('SET_STATE', {step: StepsNames.crossSections});
       this.$router.push({name: 'crossSections'});
     }
   },

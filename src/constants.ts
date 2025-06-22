@@ -19,6 +19,20 @@ export const CrossSectionTypes = {
   circleHollow: 'circleHollow',
 };
 
+export const StepsNames = {
+  default: undefined,
+  modification: 'modification',
+  connections: 'connections',
+  specialization: 'specialization',
+  kinematics: 'kinematics',
+  crossSections: 'crossSections',
+  materials: 'materials',
+  drives: 'drives',
+  deformations: 'deformations',
+  results: 'results',
+}
+
 export type Modification = EnumValues<typeof Modifications>
 export type ConnectionType = EnumValues<typeof ConnectionTypes>
 export type CrossSectionType = EnumValues<typeof CrossSectionTypes>
+export type StepName = EnumValues<typeof StepsNames>

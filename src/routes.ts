@@ -3,6 +3,7 @@ export default {
   '/': false, // root is always false
 
   // User pages
+  '/modification': true,
   '/specialization': true,
   '/connections': true,
   '/kinematics': true,

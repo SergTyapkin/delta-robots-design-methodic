@@ -31,13 +31,15 @@
       <br>
       <button>Скачать файлы</button>
       <br>
-      <div>Это был последний этап расчетов. Спасибо за использование программы!</div>
+      <router-link :to="{name: 'drives'}" class="button">Назад</router-link>
+      <button @click="submit">Результаты</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
+import {StepsNames} from "~/constants";
 
 export default {
   components: {InputComponent},
@@ -50,6 +52,10 @@ export default {
   },
 
   methods: {
+    submit() {
+      this.$store.dispatch('SET_STATE', {step: StepsNames.results});
+      this.$router.push({name: 'results'});
+    }
   },
 };
 </script>
