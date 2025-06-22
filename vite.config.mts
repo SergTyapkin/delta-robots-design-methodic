@@ -52,7 +52,7 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
           description: 'Some description of our service',
           icons: [
             {
-              src: '/static/favicon.svg',
+              src: '/static/favicon.ico',
               sizes: '32x32',
               type: 'image/png',
               purpose: 'maskable',
@@ -121,6 +121,6 @@ export default defineConfig(({ mode }: { command: 'build' | 'serve'; mode: 'deve
       sourcemap: mode !== 'production',
       cssCodeSplit: false,
     },
-    base: env.VITE_BASE_PATH ? `/${env.VITE_BASE_PATH}/` : '/',
+    base: env.VITE_BASE_PATH ? `/${env.VITE_BASE_PATH}` : '',
   };
 });
