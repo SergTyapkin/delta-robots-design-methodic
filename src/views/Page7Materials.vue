@@ -72,11 +72,12 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.materials});
   },
 
   methods: {
     submit(material: string, square: number, moment: number) {
-      this.$store.dispatch('SET_STATE', {materialType: material, crossSectionsSquare: square, maxJerk: moment, step: StepsNames.drives});
+      this.$store.dispatch('SET_STATE', {materialType: material, crossSectionsSquare: square, maxJerk: moment});
       this.$router.push({name: 'drives'});
     }
   },

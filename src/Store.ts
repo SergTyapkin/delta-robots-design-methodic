@@ -89,7 +89,7 @@ export default new Vuex.Store({
       state.state.elasticDeformationsExprs.z = undefined;
       state.state.step = undefined;
 
-      localStorage.setItem('state', JSON.stringify(state.state));
+      localStorage.removeItem('state');
     }
   },
   actions: {

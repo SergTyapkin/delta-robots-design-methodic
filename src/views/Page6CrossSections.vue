@@ -62,11 +62,13 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.crossSections});
+  },
 
   methods: {
     selectModification(conn: CrossSectionType) {
-      this.$store.dispatch('SET_STATE', {crossSectionsType: conn, step: StepsNames.materials});
+      this.$store.dispatch('SET_STATE', {crossSectionsType: conn});
       this.$router.push({name: 'materials'});
     }
   },

@@ -58,11 +58,13 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+      this.$store.dispatch('SET_STATE',{step: StepsNames.modification});
+  },
 
   methods: {
     selectModification(mod: Modification) {
-      this.$store.dispatch('SET_STATE',{modification: mod, step: StepsNames.connections});
+      this.$store.dispatch('SET_STATE',{modification: mod});
       this.$router.push({name: 'connections'});
     }
   },

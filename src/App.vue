@@ -21,7 +21,7 @@
     grid-template-rows repeat(auto-fill, 1fr)
     border-right 1px solid colorBorder
     color colorText4
-    max-width 100%
+    max-width 300px
     font-small()
     trans()
     .button-close
@@ -35,6 +35,8 @@
       border-left none
       border-radius 0 7px 7px 0
       cursor pointer
+      pointer-events all
+      z-index 999
       img
         img-size(30px)
         transform rotate(90deg)
@@ -48,12 +50,12 @@
       padding-left 0
       padding-right 0
       .button-close
-        pointer-events all
         img
           transform rotate(-90deg)
 
 
   .wrapper
+    position relative
     padding-left 20px
     flex 1
     width 100%
@@ -70,6 +72,7 @@
       background linear-gradient(90deg, colorSuccess 50%, colorBlockBg 55%)
       background-size 200% 100%
       background-position-x 'calc(100% - (100% - %s) * var(--progress))' % (circleHeight)
+      transition all 0.3s ease-out
       .step
         position absolute
         top (- (circleHeight - barHeight) / 2)
@@ -79,18 +82,18 @@
         border-radius 9999px
         border inherit
         background colorBlockBg
-        trans()
+        transition all 0.3s ease-out
         &.filled
           border-color transparent
           background colorSuccess
-
-// > *
-//  position absolute
-//  width 100%
-//  min-height 100vh
 </style>
 
 <style lang="stylus">
+.outer-wrapper
+  .wrapper
+    > *
+      position absolute
+
 @keyframes scale-out
   from
     transform scale(1)
@@ -154,17 +157,17 @@
       <div>
         <div v-if="$state.connectionsType">{{ $state.connectionsType }}</div>
       </div>
-      <div>Мин. диаметр рабочей зоны</div>
+      <div>Диаметр рабочей зоны</div>
       <div>
-        <div v-if="$state.minWorkingAreaDiameter">{{ $state.minWorkingAreaDiameter }} мм</div>
+        <div v-if="$state.workingAreaDiameter">{{ $state.workingAreaDiameter }} мм</div>
       </div>
-      <div>Мин. высота рабочей зоны</div>
+      <div>Высота рабочей зоны</div>
       <div>
-        <div v-if="$state.minWorkingAreaHeight">{{ $state.minWorkingAreaHeight }} мм</div>
+        <div v-if="$state.workingAreaHeight">{{ $state.workingAreaHeight }} мм</div>
       </div>
       <div>Макс. диаметр робота</div>
       <div>
-        <div v-if="$state.maxRobotDiameter">{{ $state.maxRobotDiameter }} мм</div>
+        <div v-if="$state.robotDiameter">{{ $state.robotDiameter }} мм</div>
       </div>
       <div>Пищевое производство</div>
       <div>
@@ -242,7 +245,7 @@
       </section>
 
       <router-view #default="{ Component }">
-        <transition name="scale-in" mode="out-in">
+        <transition name="scale-in">
           <component :is="Component"/>
         </transition>
       </router-view>
@@ -296,13 +299,14 @@ export default {
         connections: 1,
         specialization: 2,
         kinematics: 3,
-        crossSections: 4,
-        materials: 5,
-        drives: 6,
-        deformations: 7,
-        results: 8,
+        trajectories: 4,
+        crossSections: 5,
+        materials: 6,
+        drives: 7,
+        deformations: 8,
+        results: 9,
       },
-      maxStepsCount: 8,
+      maxStepsCount: 9,
     };
   },
 
@@ -363,6 +367,9 @@ export default {
         break;
       case StepsNames.kinematics:
         this.$router.push({name: 'kinematics'});
+        break;
+      case StepsNames.trajectories:
+        this.$router.push({name: 'trajectories'});
         break;
       case StepsNames.materials:
         this.$router.push({name: 'materials'});

@@ -22,6 +22,9 @@ interface RobotState {
   minWorkingAreaDiameter?: number,
   minWorkingAreaHeight?: number,
   maxRobotDiameter?: number,
+  workingAreaDiameter?: number,
+  workingAreaHeight?: number,
+  robotDiameter?: number,
   isFoodWork?: boolean,
   isWaterProof?: boolean,
   sizes: {

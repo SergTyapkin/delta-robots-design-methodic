@@ -50,11 +50,13 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.default});
+  },
 
   methods: {
-    submit() {
-      this.$store.dispatch('SET_STATE',{step: StepsNames.modification});
+    async submit() {
+      await this.$store.dispatch('CLEAR_STATE');
       this.$router.push({name: 'modification'});
     }
   },

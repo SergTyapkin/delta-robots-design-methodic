@@ -52,11 +52,13 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.connections});
+  },
 
   methods: {
     selectModification(conn: ConnectionType) {
-      this.$store.dispatch('SET_STATE', {connectionsType: conn, step: StepsNames.specialization});
+      this.$store.dispatch('SET_STATE', {connectionsType: conn});
       this.$router.push({name: 'specialization'});
     }
   },

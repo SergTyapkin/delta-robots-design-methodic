@@ -22,8 +22,14 @@
 
 <template>
   <div class="root-page">
-    <header>Расчитаны длины звеньев:</header>
-    <div class="form">
+    <section v-if="loading">
+      <header>Рассчитываем длины звеньев...</header>
+      <CircleLoading/>
+      <div>Прогресс {{ infoIteration }} / {{ infoMaxIterations }}</div>
+    </section>
+    <section v-else class="form">
+      <header>Расчитаны длины звеньев:</header>
+      <br>
       <div>Кинематическая модель робота в крайнем положении, с наибольшими габаритными размерами:</div>
       <img src="/static/images/mock/kinematicsSolving.png" alt="">
 
@@ -36,54 +42,82 @@
 
       <br>
 
-      <div>Диаметр рабочей зоны: {{ workingAreaDiameter }} мм</div>
-      <div>Высота рабочей зоны: {{ workingAreaHeight }} мм</div>
-      <div>Максимальный габаритный диаметр робота: {{ maxRobotDiameter }} мм</div>
-
-      <br>
-
-      Требуемая максимальная грузоподьёмность <span class="info">Обязательно</span>
-      <InputComponent v-model="$state.maxLoadMass" placeholder="кг"/>
+      <div>Диаметр рабочей зоны: {{ $state.workingAreaDiameter }} мм</div>
+      <div>Высота рабочей зоны: {{ $state.workingAreaHeight }} мм</div>
+      <div>Максимальный габаритный диаметр робота: {{ $state.robotDiameter }} мм</div>
 
       <router-link :to="{name: 'specialization'}" class="button">Назад</router-link>
       <button @click="submit">Далее</button>
-    </div>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
 import {StepsNames} from "~/constants";
+import {getMaxSizeDiameter, getWorkingAreaParams, solveKinematics} from "~/utils/kinematicsSolving";
+import CircleLoading from "~/components/loaders/CircleLoading.vue";
+
 
 export default {
-  components: {InputComponent},
+  components: {CircleLoading, InputComponent},
   data() {
     return {
-      maxRobotDiameter: 309 * 2,
-      workingAreaDiameter: 508,
-      workingAreaHeight: 931,
+      infoIteration: 0,
+      infoMaxIterations: 0,
+
+      loading: false,
     };
   },
 
-  mounted() {
-    this.$state.sizes.F = 237;
-    this.$state.sizes.E = 86;
-    this.$state.sizes.Lf = 163;
-    this.$state.sizes.Le = 291;
+  async mounted() {
+    this.loading = true;
+    const solving = await solveKinematics(
+      this.$state.minWorkingAreaDiameter || 1,
+      this.$state.minWorkingAreaHeight || 1,
+      this.$state.maxRobotDiameter,
+      (i, maxI) => {
+        this.infoIteration = i;
+        this.infoMaxIterations = maxI;
+      }
+    );
+    this.loading = false;
 
-    this.$state.maxAngleSpeed = 32.83;
-    this.$state.maxAngleAcceleration = 0.29;
+    if (!solving) {
+      this.$popups.error('Решения не найдено', 'Попробуйте изменить параметры и запустить расчет заново');
+      this.$router.push({name: 'specialization'});
+      return;
+    }
+    const F = Math.round(solving.F);
+    const E = Math.round(solving.E);
+    const Lf = Math.round(solving.Le);
+    const Le = Math.round(solving.Lf);
+
+    this.$state.sizes.F = F;
+    this.$state.sizes.E = E;
+    this.$state.sizes.Lf = Lf;
+    this.$state.sizes.Le = Le;
+
+    let targetDtoH = undefined;
+    if (this.$state.minWorkingAreaDiameter && this.$state.minWorkingAreaHeight) {
+      targetDtoH = this.$state.minWorkingAreaDiameter / this.$state.minWorkingAreaHeight;
+    }
+    const {diameter, height, minZ, maxZ} = getWorkingAreaParams(F, E, Lf, Le, targetDtoH);
+    console.log("WORKING AREA", {diameter, height, minZ, maxZ});
+    this.$state.workingAreaDiameter = Math.round(diameter);
+    this.$state.workingAreaHeight = Math.round(height);
+
+    const robotDiameter = getMaxSizeDiameter(F, E, Lf, Le, diameter, minZ, maxZ);
+    console.log("MAX SIZE", robotDiameter);
+    this.$state.robotDiameter = Math.round(robotDiameter);
+
+    this.$store.dispatch('SET_STATE',{step: StepsNames.kinematics});
   },
 
   methods: {
     submit() {
-      if (!this.$state.maxLoadMass) {
-        this.$popups.error('Не заполнено поле', 'Заполните массу');
-        return;
-      }
-
-      this.$store.dispatch('SET_STATE', {step: StepsNames.crossSections});
-      this.$router.push({name: 'crossSections'});
+      this.$store.dispatch('SET_STATE',{});
+      this.$router.push({name: 'trajectories'});
     }
   },
 };

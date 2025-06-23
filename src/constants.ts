@@ -25,6 +25,7 @@ export const StepsNames = {
   connections: 'connections',
   specialization: 'specialization',
   kinematics: 'kinematics',
+  trajectories: 'trajectories',
   crossSections: 'crossSections',
   materials: 'materials',
   drives: 'drives',

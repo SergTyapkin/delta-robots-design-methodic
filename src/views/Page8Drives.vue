@@ -59,11 +59,11 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.drives});
   },
 
   methods: {
     submit() {
-      this.$store.dispatch('SET_STATE', {step: StepsNames.deformations});
       this.$router.push({name: 'deformations'});
     }
   },

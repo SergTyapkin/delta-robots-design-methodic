@@ -49,11 +49,11 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch('SET_STATE',{step: StepsNames.deformations});
   },
 
   methods: {
     submit() {
-      this.$store.dispatch('SET_STATE', {step: StepsNames.results});
       this.$router.push({name: 'results'});
     }
   },

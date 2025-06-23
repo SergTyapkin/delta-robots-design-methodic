@@ -55,6 +55,7 @@ export default {
   mounted() {
     this.$state.isFoodWork = false;
     this.$state.isWaterProof = false;
+    this.$store.dispatch('SET_STATE',{step: StepsNames.specialization});
   },
 
   methods: {
@@ -64,7 +65,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch('SET_STATE', {step: StepsNames.kinematics});
+      this.$store.dispatch('SET_STATE',{});
       this.$router.push({name: 'kinematics'});
     }
   },
