@@ -26,11 +26,6 @@ export const Materials = [
     density: 7.810,
   },
   {
-    name: 'Сталь 40Х',
-    limitTurnover: 500,
-    density: 7.850,
-  },
-  {
     name: 'Сталь 10',
     limitTurnover: 210,
     density: 7.850,
@@ -46,8 +41,8 @@ export const Materials = [
     density: 7.850,
   },
   {
-    name: 'Сталь 08КП',
-    limitTurnover: 195,
+    name: 'Сталь 40Х',
+    limitTurnover: 500,
     density: 7.850,
   },
   {

@@ -69,7 +69,7 @@ export default {
       let minJerkPair = {};
       let maxJerk = -Infinity;
       let maxJerkPair = {};
-      let mediumJerk = -Infinity;
+      let mediumJerkMinDiff = Infinity;
       let mediumJerkPair = {};
       Materials.forEach(material => {
         const {jerk, square} = this.calcMaterial(material, 1 * this.$state.sizes.Lf! * material.density);
@@ -86,8 +86,16 @@ export default {
           maxJerk = jerk;
           maxJerkPair = pair;
         }
-        if (jerk > (maxJerk - minJerk) * 0.3 && jerk < (maxJerk - minJerk) * 0.7) {
-          mediumJerk = jerk;
+      });
+      Materials.forEach(material => {
+        const {jerk, square} = this.calcMaterial(material, 1 * this.$state.sizes.Lf! * material.density);
+        const pair = {
+          jerk: Math.round(jerk * 100) / 100,
+          square: Math.round(square * 10000) / 100,
+          material: material.name,
+        };
+        if (Math.abs((maxJerk + minJerk) / 2 - jerk) < mediumJerkMinDiff) {
+          mediumJerkMinDiff = Math.abs((maxJerk + minJerk) / 2 - jerk);
           mediumJerkPair = pair;
         }
       });

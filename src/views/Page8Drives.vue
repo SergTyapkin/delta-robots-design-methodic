@@ -31,7 +31,7 @@
       <div>Номинальный момент: {{ $state.maxJerk }} Н/м</div>
       <div>В случае, если перегрузок не ожидается, на максимальный момент можно не ориентироваться.</div>
       <br>
-      <div>Скорость вращения: {{ $state.maxAngleSpeed }} °/сек = {{ $state.maxAngleSpeed / 60 }} об/мин</div>
+      <div>Скорость вращения: {{ $state.maxAngleSpeed }} °/сек = {{ Math.round($state.maxAngleSpeed / 60 * 100) / 100 }} об/мин</div>
       <br>
       <div v-if="$state.isWaterProof">Стандарт влаго- и пылезащиты: IP65–IP69K</div>
       <br>

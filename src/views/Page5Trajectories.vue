@@ -19,8 +19,9 @@
       img-size(300px)
       margin 0 auto
     svg
-      max-width 100%
-      height 400px
+      width 100%
+      max-width 600px
+      height 200px
 </style>
 
 <template>
