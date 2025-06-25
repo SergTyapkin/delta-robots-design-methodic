@@ -61,6 +61,8 @@ export default new Vuex.Store({
       state.state.elasticDeformationsExprs.x =  robotState.elasticDeformationsExprs?.x ?? state.state.elasticDeformationsExprs.x;
       state.state.elasticDeformationsExprs.y =  robotState.elasticDeformationsExprs?.y ?? state.state.elasticDeformationsExprs.y;
       state.state.elasticDeformationsExprs.z =  robotState.elasticDeformationsExprs?.z ?? state.state.elasticDeformationsExprs.z;
+      state.state.pointsTrajectory =  robotState.pointsTrajectory ?? state.state.pointsTrajectory;
+      state.state.pointsTimes =  robotState.pointsTimes ?? state.state.pointsTimes;
       state.state.step = robotState.step ?? state.state.step;
 
       console.log("State updated:", state.state);
@@ -73,7 +75,7 @@ export default new Vuex.Store({
       state.state.minWorkingAreaDiameter = undefined;
       state.state.minWorkingAreaHeight = undefined;
       state.state.maxRobotDiameter = undefined;
-      state.state.maxRobotDiameter =  undefined;
+      state.state.robotDiameter =  undefined;
       state.state.workingAreaDiameter =  undefined;
       state.state.workingAreaHeight =  undefined;
       state.state.isWaterProof = undefined;
@@ -93,6 +95,8 @@ export default new Vuex.Store({
       state.state.elasticDeformationsExprs.x = undefined;
       state.state.elasticDeformationsExprs.y = undefined;
       state.state.elasticDeformationsExprs.z = undefined;
+      state.state.pointsTrajectory = undefined;
+      state.state.pointsTimes = undefined;
       state.state.step = undefined;
 
       localStorage.removeItem('state');

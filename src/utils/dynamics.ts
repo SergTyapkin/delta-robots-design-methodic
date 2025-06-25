@@ -1,7 +1,7 @@
 import {diff, dot3, norm} from "~/utils/numberUtils";
 import {inverseKinematics} from "~/utils/kinematics";
 
-export function calcMaxMoment(points: {x: number, y: number, z: number}[], timesArr: number[], F: number, E: number, Lf: number, Le: number, Mlf: number, Mle: number, Me: number, additionalPhi: number = 0) {
+export function calcMaxJerk(points: {x: number, y: number, z: number}[], timesArr: number[], F: number, E: number, Lf: number, Le: number, Mlf: number, Mle: number, Me: number, additionalPhi: number = 0) {
 
 
   const dPoints = diff(points);

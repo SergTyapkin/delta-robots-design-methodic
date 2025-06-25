@@ -27,6 +27,9 @@
       Ограничение на максимальный диаметр робота <div class="info">Не обязательно</div>
       <InputComponent v-model="$state.maxRobotDiameter" type="number" placeholder="мм."/>
 
+      Максимальная грузоподьемность <div class="info">Обязательно</div>
+      <InputComponent v-model="$state.maxLoadMass" type="number" placeholder="кг."/>
+
       Работа с пищевой продукцией
       <Checkbox v-model="$state.isFoodWork"/>
 
@@ -62,6 +65,10 @@ export default {
     submit() {
       if (!this.$state.minWorkingAreaDiameter && !this.$state.minWorkingAreaHeight && !this.$state.maxRobotDiameter) {
         this.$popups.error('Не заполнено ни одно поле', 'Заполните хотя бы одно');
+        return;
+      }
+      if (!this.$state.maxLoadMass) {
+        this.$popups.error('Не заполнено поле', 'Заполните массу');
         return;
       }
 

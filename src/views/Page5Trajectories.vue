@@ -65,9 +65,10 @@
         <br>
         <div>Оптимизированный угол поворота вокруг оси Z: {{ Math.round(optimizedAngle * 10) / 10 }} °</div>
         <div>Значение макс. момента при этом уменьшается до: {{ Math.round(optimizedMaxJerk * 100) / 100 }} Н*м</div>
-        <router-link :to="{name: 'kinematics'}" class="button">Назад</router-link>
         <button @click="submit">Далее</button>
       </div>
+
+      <router-link :to="{name: 'kinematics'}" class="button">Назад</router-link>
     </div>
   </div>
 </template>
@@ -76,7 +77,7 @@
 import InputComponent from "~/components/InputComponent.vue";
 import CircleLoading from "~/components/loaders/CircleLoading.vue";
 import {StepsNames} from "~/constants";
-import {calcMaxMoment} from "~/utils/dynamics";
+import {calcMaxJerk} from "~/utils/dynamics";
 import {minimize_Powell} from "~/utils/optimization";
 
 const X_AXIS_IZOMETRIC_ANGLE = 25 / 180 * Math.PI;
@@ -102,16 +103,16 @@ export default {
       zByT: `${-Math.round(this.$state.workingAreaHeight! / 3 * 5)} + ${Math.round(this.$state.workingAreaHeight! / 5)} * (1 - (t / tTotal * 2 - 1)**10)`,
       tTotal: 2,
 
-      maxTauCalcResult: {} as ReturnType<typeof calcMaxMoment>,
+      maxTauCalcResult: {} as ReturnType<typeof calcMaxJerk>,
 
       isAngleOptimized: false,
       optimizedAngle: NaN,
       optimizedMaxJerk: NaN,
 
       // TODO: учесть соотношение веса материалов
-      Mlf: 1e-13,
-      Mle: this.$state.sizes.Le! / this.$state.sizes.Lf! * 1e-13 * 0.3,
-      Me: (this.$state.sizes.E! / this.$state.sizes.Lf!) ** 2 * 1e-13 * 6,
+      Mlf: 1e-15,
+      Mle: this.$state.sizes.Le! / this.$state.sizes.Lf! * 1e-15 * 0.3,
+      Me: (this.$state.sizes.E! / this.$state.sizes.Lf!) ** 2 * 1e-15 * 0.2,
 
       X_AXIS_IZOMETRIC_ANGLE,
     };
@@ -185,7 +186,7 @@ export default {
         return;
       }
 
-      this.maxTauCalcResult = calcMaxMoment(
+      this.maxTauCalcResult = calcMaxJerk(
         points,
         this.tArr,
         this.$state.sizes.F!,
@@ -200,7 +201,7 @@ export default {
 
     optimizeAngle() {
       const optimized = minimize_Powell((phi: number) => {
-        const res = calcMaxMoment(
+        const res = calcMaxJerk(
           this.points,
           this.tArr,
           this.$state.sizes.F!,
@@ -232,6 +233,8 @@ export default {
         maxAngleSpeed: Math.round(this.maxTauCalcResult.maxAngleSpeed * 100) / 100,
         maxAngleAcceleration: Math.round(this.maxTauCalcResult.maxAngleAcceleration * 100) / 100,
         optimizedZAngle: Math.round(this.optimizedAngle * 10) / 10,
+        pointsTrajectory: this.points,
+        pointsTimes: this.tArr,
       });
       this.$router.push({name: 'crossSections'});
     }

@@ -46,6 +46,8 @@ interface RobotState {
     y?: (t1: number, t2: number, t3: number, mass: number) => number,
     z?: (t1: number, t2: number, t3: number, mass: number) => number,
   },
+  pointsTrajectory?: {x: number, y: number, z: number}[]
+  pointsTimes?: number[]
 
   step?: StepName,
 }

@@ -223,19 +223,7 @@
       </div>
       <div>Макс. угл. ускорение</div>
       <div>
-        <div v-if="$state.maxAngleAcceleration">{{ $state.maxAngleAjcceleration }} °/сек^2</div>
-      </div>
-      <div>Компенсация деформаций X</div>
-      <div>
-        <div v-if="$state.elasticDeformationsExprs.x">{{ $state.elasticDeformationsExprs.x }} мм</div>
-      </div>
-      <div>Компенсация деформаций Y</div>
-      <div>
-        <div v-if="$state.elasticDeformationsExprs.y">{{ $state.elasticDeformationsExprs.y }} мм</div>
-      </div>
-      <div>Компенсация деформаций Z</div>
-      <div>
-        <div v-if="$state.elasticDeformationsExprs.z">{{ $state.elasticDeformationsExprs.z }} мм</div>
+        <div v-if="$state.maxAngleAcceleration">{{ $state.maxAngleAcceleration }} °/сек^2</div>
       </div>
     </div>
 

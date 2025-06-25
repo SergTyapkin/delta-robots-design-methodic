@@ -1,4 +1,4 @@
-type EnumValues<Enum> = Enum[keyof Enum]
+export type EnumValues<Enum> = Enum[keyof Enum]
 // type EnumKeys<Enum> = Enum[keyof Enum]
 
 export const Modifications = {
