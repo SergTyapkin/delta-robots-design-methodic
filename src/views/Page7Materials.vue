@@ -53,7 +53,7 @@ export default {
     return {
       pairs: [
         {
-          moment: 4.96,
+          moment: 2.06,
           square: 10.39,
           material: 'Алюминий А5',
         },

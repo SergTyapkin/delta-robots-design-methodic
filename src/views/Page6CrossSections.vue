@@ -46,7 +46,7 @@
       </article>
     </div>
 
-    <router-link :to="{name: 'kinematics'}" class="button">Назад</router-link>
+    <router-link :to="{name: 'trajectories'}" class="button">Назад</router-link>
   </div>
 </template>
 

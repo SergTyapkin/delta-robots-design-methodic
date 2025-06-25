@@ -41,6 +41,9 @@ export default new Vuex.Store({
       state.state.minWorkingAreaDiameter =  robotState.minWorkingAreaDiameter ?? state.state.minWorkingAreaDiameter;
       state.state.minWorkingAreaHeight =  robotState.minWorkingAreaHeight ?? state.state.minWorkingAreaHeight;
       state.state.maxRobotDiameter =  robotState.maxRobotDiameter ?? state.state.maxRobotDiameter;
+      state.state.workingAreaDiameter =  robotState.workingAreaDiameter ?? state.state.workingAreaDiameter;
+      state.state.workingAreaHeight =  robotState.workingAreaHeight ?? state.state.workingAreaHeight;
+      state.state.robotDiameter =  robotState.robotDiameter ?? state.state.robotDiameter;
       state.state.isWaterProof =  robotState.isWaterProof ?? state.state.isWaterProof;
       state.state.isFoodWork =  robotState.isFoodWork ?? state.state.isFoodWork;
       state.state.materialType =  robotState.materialType ?? state.state.materialType;
@@ -70,6 +73,9 @@ export default new Vuex.Store({
       state.state.minWorkingAreaDiameter = undefined;
       state.state.minWorkingAreaHeight = undefined;
       state.state.maxRobotDiameter = undefined;
+      state.state.maxRobotDiameter =  undefined;
+      state.state.workingAreaDiameter =  undefined;
+      state.state.workingAreaHeight =  undefined;
       state.state.isWaterProof = undefined;
       state.state.isFoodWork = undefined;
       state.state.materialType = undefined;

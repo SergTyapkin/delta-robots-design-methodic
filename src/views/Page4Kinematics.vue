@@ -90,8 +90,8 @@ export default {
     }
     const F = Math.round(solving.F);
     const E = Math.round(solving.E);
-    const Lf = Math.round(solving.Le);
-    const Le = Math.round(solving.Lf);
+    const Lf = Math.round(solving.Lf);
+    const Le = Math.round(solving.Le);
 
     this.$state.sizes.F = F;
     this.$state.sizes.E = E;

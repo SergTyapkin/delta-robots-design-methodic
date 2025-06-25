@@ -30,7 +30,7 @@
         <img src="/static/images/modificationDefault.png" alt="">
       </article>
 
-      <article class="card" @click="selectModification(Modifications.rotating)">
+      <article class="card disabled" @click="selectModification(Modifications.rotating)">
         <header>С поворотом схвата</header>
         <img src="/static/images/modificationRotating.png" alt="">
       </article>

@@ -47,7 +47,6 @@
 <script lang="ts">
 import InputComponent from "~/components/InputComponent.vue";
 import {StepsNames} from "~/constants";
-import {gradientMin} from "~/utils/optimizations";
 
 export default {
   components: {InputComponent},

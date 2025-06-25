@@ -115,9 +115,9 @@ export async function solveKinematics(minAreaDiameter?: number, minAreaHeight?: 
       const minAreaDiameterPenalty = (minAreaDiameter && diameter < minAreaDiameter) ? - (minAreaDiameter - diameter) * PENALTY_FACTOR : 0;
       const minAreaHeightPenalty = (minAreaHeight && height < minAreaHeight) ? - (minAreaHeight - height) * PENALTY_FACTOR : 0;
       const maxRobotDiameterPenalty = (maxRobotDiameter && maxSize > maxRobotDiameter) ? - (maxSize - maxRobotDiameter) * PENALTY_FACTOR : 0;
-      const warnEFRatioPenalty = -Math.abs(0.3 - E / F) * 50 * PENALTY_FACTOR;
-      const warnLfFRatioPenalty = -Math.abs(0.7 - Lf / F) * PENALTY_FACTOR;
-      const warnLeFRatioPenalty = -Math.abs(1.2 - Le / F) * PENALTY_FACTOR;
+      const warnEFRatioPenalty = -Math.abs(0.25 - E / F) * 50 * PENALTY_FACTOR;
+      const warnLfFRatioPenalty = -Math.abs(0.5 - Lf / F) * 50 * PENALTY_FACTOR;
+      const warnLeFRatioPenalty = -Math.abs(1.3 - Le / F) * 50 * PENALTY_FACTOR;
 
       return -(maximizingVal +
         minAreaDiameterPenalty +

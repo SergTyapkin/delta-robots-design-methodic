@@ -69,7 +69,7 @@
       border 1px solid mix(colorBorder, transparent)
       margin-top 10px
       position relative
-      background linear-gradient(90deg, colorSuccess 50%, colorBlockBg 55%)
+      background linear-gradient(90deg, colorSuccess 50%, colorBlockBg 53%)
       background-size 200% 100%
       background-position-x 'calc(100% - (100% - %s) * var(--progress))' % (circleHeight)
       transition all 0.3s ease-out
@@ -215,15 +215,15 @@
       </div>
       <div>Макс. момент</div>
       <div>
-        <div v-if="$state.maxJerk">{{ $state.maxJerk }} Н/м</div>
+        <div v-if="$state.maxJerk">{{ $state.maxJerk }} Н*м</div>
       </div>
       <div>Макс. угл. скорость</div>
       <div>
-        <div v-if="$state.maxAngleSpeed">{{ $state.maxAngleSpeed }} °/сек</div>
+        <div v-if="$state.maxAngleSpeed">{{ $state.maxAngleSpeed }} °/сек = {{ Math.round($state.maxAngleSpeed * 60 / 360) }} об/мин</div>
       </div>
       <div>Макс. угл. ускорение</div>
       <div>
-        <div v-if="$state.maxAngleAcceleration">{{ $state.maxAngleAcceleration }} °/сек^2</div>
+        <div v-if="$state.maxAngleAcceleration">{{ $state.maxAngleAjcceleration }} °/сек^2</div>
       </div>
       <div>Компенсация деформаций X</div>
       <div>
