@@ -63,6 +63,7 @@
     barHeight = 6px
     circleHeight = 12px
     .progressbar
+      padding 0 10px
       width 100%
       height barHeight
       border-radius 9999px

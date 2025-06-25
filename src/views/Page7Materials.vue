@@ -31,7 +31,7 @@
 
     <div class="cards-container">
 
-      <article v-for="pair in pairs" class="card" @click="submit(pair.material, pair.square, pair.moment)">
+      <article v-for="pair in pairs" class="card" @click="submit(pair.material, pair.square, pair.jerk)">
         <header>Материал: {{ pair.material }}</header>
         <header>Площадь сечения звеньев: {{ pair.square }} мм^2</header>
         <header>Номинальный момент на моторах: {{ pair.jerk }} Н/м</header>
